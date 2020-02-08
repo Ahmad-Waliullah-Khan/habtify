@@ -15,5 +15,7 @@ class HabitsAdmin(admin.ModelAdmin):
 class HabitsAdmin(admin.ModelAdmin):
 	fields = ('title', 'description', 'user')
 
+	list_display = ('title', 'description', 'user', 'created_at', 'updated_at')
+
 	def get_user(self):
 		pass
