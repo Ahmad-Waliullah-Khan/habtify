@@ -14,6 +14,10 @@ class Habit(models.Model):
 	def __str__(self):
 		return "{}".format(self.title)
 
+	def save_model(self, request, obj, form, change):
+	    obj.user = request.user
+	    super().save_model(request, obj, form, change)
+
 	class Meta:
 		verbose_name = "habit"
 		verbose_name_plural = "Habit Management"
@@ -28,6 +32,10 @@ class Tracker(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.habit)
+
+	def save_model(self, request, obj, form, change):
+	    obj.user = request.user
+	    super().save_model(request, obj, form, change)
 
 	class Meta:
 		verbose_name = "tracker"

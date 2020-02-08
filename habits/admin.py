@@ -3,10 +3,10 @@ from django.contrib import admin
 from .models import Habit, Tracker
 
 @admin.register(Tracker)
-class HabitsAdmin(admin.ModelAdmin):
-	fields = ('habit', 'description', 'user', 'done')
+class TrackerAdmin(admin.ModelAdmin):
+	fields = ('habit', 'description',  'done')
 
-	list_display = ('habit', 'description', 'user', 'started_at', 'updated_at' , 'is_complete')
+	list_display = ('habit', 'description', 'started_at', 'user' , 'updated_at' ,  'is_complete')
 
 	def is_complete(self, instance):
 		if instance.done == True:
@@ -14,14 +14,17 @@ class HabitsAdmin(admin.ModelAdmin):
 		else:
 			return "On Going"
 
-	def get_user(self):
-		pass
+	def save_model(self, request, obj, form, change):
+		obj.user = request.user
+		super(TrackerAdmin, self).save_model(request, obj, form, change)
 
 @admin.register(Habit)
 class HabitsAdmin(admin.ModelAdmin):
-	fields = ('title', 'description', 'user')
+	fields = ('title', 'description')
 
-	list_display = ('title', 'description', 'user', 'started_at', 'updated_at')
+	list_display = ('title', 'description', 'started_at', 'updated_at')
+	exclude = ['user']
 
-	def get_user(self):
-		pass
+	def save_model(self, request, obj, form, change):
+		obj.user = request.user
+		super(HabitsAdmin, self).save_model(request, obj, form, change)
